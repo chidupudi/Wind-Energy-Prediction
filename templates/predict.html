@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict Wind Power</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6dd5ed, #2193b0);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #2193b0;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #1b7e94;
+        }
+        .data {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .data h2 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .data p {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wind Power Prediction</h1>
+        <form action="/windapi" method="POST">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required>
+            <input type="submit" value="Get Wind Data">
+        </form>
+
+        <form action="/y_predict" method="POST">
+            <label for="theoretical_power_curve">Theoretical Power Curve (KWh):</label>
+            <input type="text" id="theoretical_power_curve" name="theoretical_power_curve" required><br>
+            
+            <label for="wind_speed">Wind Speed (m/s):</label>
+            <input type="text" id="wind_speed" name="wind_speed" required><br>
+            
+            <label for="wind_direction">Wind Direction:</label>
+            <input type="text" id="wind_direction" name="wind_direction" required><br>
+            
+            <input type="submit" value="Predict">
+        </form>
+
+        <div class="data">
+            {% if temp and humid and pressure and speed %}
+                <h2>Current Weather Data:</h2>
+                <p>Temperature: {{ temp }} </p>
+                <p>Humidity: {{ humid }} </p>
+                <p>Pressure: {{ pressure }} </p>
+                <p>Wind Speed: {{ speed }} </p>
+            {% endif %}
+
+            {% if prediction_text %}
+                <h2>Prediction:</h2>
+                <p>{{ prediction_text }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
